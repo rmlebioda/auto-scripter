@@ -54,16 +54,16 @@ class AutoScripter:
         print("Pressed keys: {}".format(self.__current_pressed_keys))
         for register in self.__find_keys(frozenset(self.__current_pressed_keys)):
             if register.repeat is None:
-                print("executing function for keys: {}".format(self.__current_pressed_keys))
+                print("executing function for keys: {}".format(register.keys))
                 register.callback()
             else:
                 timer = self.__timers.get(key)
                 if timer is not None:
-                    print("stopping timer for keys: {}".format(self.__current_pressed_keys))
+                    print("stopping timer for keys: {}".format(register.keys))
                     timer.stop()
                     self.__timers.pop(key, None)
                 else:
-                    print("executing timer for keys: {}".format(self.__current_pressed_keys))
+                    print("executing timer for keys: {}".format(register.keys))
                     self.__timers[key] = RepeatedTimer(register.repeat, register.callback)
 
     def __on_release(self, key):
